@@ -1,0 +1,10 @@
+﻿{
+    "development" : {
+        "connectionString": "mongodb://username:password@ds253821.mlab.com:53821/userauth",
+        "secret": "ssshhhhh"
+    },
+    "production" : {
+        "connectionString": "mongodb://localhost/mongo-api",
+        "secret": "abcdefgh"
+    }    
+}

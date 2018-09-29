@@ -8,13 +8,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { CommonModule } from '@angular/common';
+import { UserComponent } from './user/user.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +27,7 @@ import { CommonModule } from '@angular/common';
     AuthModule,
     CoreModule
   ],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

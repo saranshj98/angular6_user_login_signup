@@ -3,6 +3,7 @@ import { Response } from '@angular/http';
 import { HttpEvent } from '@angular/common/http'
 
 import { AuthService } from '../../auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-header',
@@ -10,27 +11,22 @@ import { AuthService } from '../../auth/auth.service';
 	})
 export class HeaderComponent{
 
+	private isAuth;
+	private authSub : Subscription;
+
 	constructor(private authService: AuthService) {}
 
-	onSave(){
-		// this.dataStorageService.storeRecipes()
-		// .subscribe(
-		// 	(response: HttpEvent<any>) => {
-		// 		console.log(response);
-		// 	}
-		// )
-	}
 
-	onFetchData(){
-		// this.dataStorageService.getRecipes();
+	ngOnInit() {
+		this.authSub = this.authService.auth.subscribe(res => {
+			this.isAuth = res;
+		})
+
+		this.authService.setAuth(false);
 	}
 
 	onLogout(){
 		this.authService.logout()
 	}
-
-	isAuthenticated() {
-    	return this.authService.isAuthenticated();
-  }
 
 }

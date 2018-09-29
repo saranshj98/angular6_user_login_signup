@@ -1,79 +1,55 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
 
 	username: string= ''
+	private user;
+	public auth = new Subject<boolean>();
+	public trfUserData = new Subject<any>();
+	public isAuthenticated = false;
 
-	constructor(private router: Router) {}
+	constructor(private router: Router, private http: HttpClient) {}
 
 	token: string;
-	signupUser(email: string, password: string){
-		// firebase.auth().createUserWithEmailAndPassword(email, password)
-		// .then(
-		// 	(response)=>{
-		// 		console.log(response);
-		// 		this.router.navigate(['/']);
-		// 		firebase.auth().currentUser.getToken()
-		// 		.then(
-		// 			(token: string)=>{
-		// 				this.token = token;
-		// 			}
-		// 		)
-		// 	}
-		// )
-		// .catch(
-		// 	(error) => {console.log(error)}
-		// )
+	signupUser(username : string, email: string, password: string){
+		let model = {
+			username, email, password
+		}
+
+		return this.http.post(`https://still-cove-74270.herokuapp.com/api/user/create`, model)
 	}
 
 	signinUser(email: string, password: string){
-		// firebase.auth().signInWithEmailAndPassword(email, password)
-		// .then(
-		// 	(response)=>{
-		// 		this.router.navigate(['/']);
-		// 		console.log(response.email);
-		// 		this.username = this.genUsername(response.email);
-		// 		console.log(this.username);
-		// 		firebase.auth().currentUser.getToken()
-		// 		.then(
-		// 			(token: string)=>{this.token = token}
-		// 			)
-		// 	}
-		// ).catch(
-		// 	(error) =>{console.log(error)}
-		// )
+		let model = {  
+			email, password
+		}
+		return this.http.post(`https://still-cove-74270.herokuapp.com/api/user/create`, model)
+	}
+
+	setAuth(value) {
+		this.isAuthenticated = value;
+		this.auth.next(this.isAuthenticated);
+	}
+
+	setUser(user) {
+		this.user = user;
+	}
+	
+	getUser() {
+		this.trfUserData.next(this.user);
 	}
 
 	logout(){
-		// firebase.auth().signOut();
-		// this.token = null;
-		// this.router.navigate(['signin'])
+		this.setAuth(false);
+		this.router.navigate(['signin'])
 	}
 
-	getToken(){
-		// firebase.auth().currentUser.getToken()
-		// .then(
-		// 	(token: string)=>{this.token = token}
-		// );
-		// return this.token
+	getAuth() {
+		return this.isAuthenticated;
 	}
 
-	isAuthenticated(){
-		// return this.token!= null; 
-	}
-
-	genUsername(str: string){
-	// 	let newstr = '';
-	// 	for (let i =0; i<str.length; i++){
-	// 		if (str[i]!='@'){
-	// 			newstr = newstr + str[i];
-	// 		} else {
-	// 			break;
-	// 		}
-	// 	}
-	// 	return newstr;
-	// }
-	}
 }

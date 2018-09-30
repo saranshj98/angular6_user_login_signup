@@ -10,8 +10,11 @@
 
 			<div class="form-group">
 				<label for="Password">Password</label>
-				<input type="password" name="password"
+				<input type="password" name="password" required
 						ngModel class="form-control">
+				<small class="form-text text-danger" *ngIf="isErr">
+					{{ errMessage }}
+				</small>
 			</div>	
 			<button class="btn btn-primary" type="submit" [disabled]="!f.valid">Sign In</button>
 		</form>		
